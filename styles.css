@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -84,8 +83,8 @@ body {
     width: 80px;
 }
 
-.input:focus ~ .cut,
-.input:not(:placeholder-shown) ~ .cut {
+.input:focus~.cut,
+.input:not(:placeholder-shown)~.cut {
     transform: translateY(8px);
 }
 
@@ -101,16 +100,16 @@ body {
     top: 20px;
 }
 
-.input:focus ~ .placeholder,
-.input:not(:placeholder-shown) ~ .placeholder {
+.input:focus~.placeholder,
+.input:not(:placeholder-shown)~.placeholder {
     transform: translateY(-30px) translateX(10px) scale(0.75);
 }
 
-.input:not(:placeholder-shown) ~ .placeholder {
+.input:not(:placeholder-shown)~.placeholder {
     color: #808097;
 }
 
-.input:focus ~ .placeholder {
+.input:focus~.placeholder {
     color: #ffffff;
 }
 
@@ -124,7 +123,7 @@ body {
     font-size: 18px;
     height: 50px;
     margin-top: 38px;
-// outline: 0;
+    outline: 0;
     text-align: center;
     width: 100%;
 }
