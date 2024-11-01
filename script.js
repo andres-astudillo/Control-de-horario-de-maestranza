@@ -1,4 +1,4 @@
-const URL_API_GOOGLE_SHEET = 'https://script.google.com/macros/s/AKfycbxRCqYy_03BdB0WP4JzyalXqtCRtXtCRjbnbcY6kwlT9ELNe5yRt5S-ja0N6MEu_Wic/exec';
+const URL_API_GOOGLE_SHEET = 'https://script.google.com/macros/s/AKfycbwM8yuAXCwb1b69c9XCagHhmcMZEUqZBDCQCtkKoRc/dev';
 
 // Usuarios predeterminados
 let usuarios = {
