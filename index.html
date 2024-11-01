@@ -1,37 +1,35 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Entrada y Salida</title>
+    <meta charset="utf-8">
+    <title>Frontend Para Dummies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
-    <h2>Iniciar Sesión</h2>
-    <form id="login-form">
-        <label for="username">Usuario:</label>
-        <input type="text" id="username" required>
-
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" required>
-
-        <button type="button" onclick="iniciarSesion()">Iniciar Sesión</button>
-    </form>
-
-    <div id="registro-form" style="display: none;">
-        <h2>Registro de Entrada y Salida</h2>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" readonly>
-
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" readonly>
-
-        <p id="ubicacion">Ubicación: Cargando...</p>
-
-        <button type="button" onclick="registrar('entrada')">Registrar Entrada</button>
-        <button type="button" onclick="registrar('salida')">Registrar Salida</button>
-        <button type="button" onclick="cambiarContrasena()">Cambiar Contraseña</button>
+<form name="contact-form" method="post" class="form">
+    <h1 class="title">Bienvenidos</h1>
+    <h3 class="subtitle">¡Vamos, crea una cuenta!</h3>
+    <div class="input-container ic1">
+        <input name="Nombre" id="firstname" class="input" type="text" placeholder=" "/>
+        <div class="cut"></div>
+        <label for="firstname" class="placeholder">Nombre</label>
     </div>
-
-    <script src="script.js"></script>
+    <div class="input-container ic2">
+        <input name="Apellido" id="lastname" class="input" type="text" placeholder=" "/>
+        <div class="cut"></div>
+        <label for="lastname" class="placeholder">Apellido</label>
+    </div>
+    <div class="input-container ic2">
+        <input name="Email" id="email" class="input" type="text" placeholder=" "/>
+        <div class="cut cut-short"></div>
+        <label for="email" class="placeholder">Email</label>
+    </div>
+    <button type="submit" class="submit">submit</button>
+</form>
+<script src="script.js"></script>
 </body>
 </html>
