@@ -6,7 +6,7 @@ form.addEventListener('submit', e => {
 
     fetch(scriptUrl, {method: 'POST', body: new FormData(form)})
             .then(response => Swal.fire({
-        title: "¡MUCHAS GRACIAS!",
+        title: "Registro hecho!",
         text: "Formulario Envíado",
         icon: "success"}))
             .then( () => { window.location.reload() } )
