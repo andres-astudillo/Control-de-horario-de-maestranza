@@ -1,35 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-    <meta charset="utf-8">
-    <title>Frontend Para Dummies</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maestranza</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <style>
+        .form-container {
+            color: aliceblue;
+            max-width: 500px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            box-shadow: 0 0 60px rgb(0, 0, 0);
+            background-color: #333333;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
-<body>
-<form name="contact-form" method="post" class="form">
-    <h1 class="title">Control de horario</h1>
-    <h3 class="subtitle">Maestranza</h3>
-    <div class="input-container ic1">
-        <input name="Nombre" id="firstname" class="input" type="text" placeholder=" "/>
-        <div class="cut"></div>
-        <label for="firstname" class="placeholder">Nombre</label>
+<body class="bg-dark">
+    <div class="container">
+        <div class="form-container">
+            <h1 class="text-center mb-4">Registro de horario</h1>
+            <p class="text-start mb-5">Este formulario registra automáticamente la fecha y hora además de la
+                ubicación. <strong>Por lo que es necesario darle los permisos de ubicación para que funcione correctamente.</strong></p>
+            <form id="submit-to-google-sheet">
+                <div class="form-group">
+                    <label for="loc">Fecha</label>
+                    <input class="form-control" id="date" type="text" placeholder="" disabled>
+                    <label for="loc">Hora</label>
+                    <input class="form-control" id="time" type="text" placeholder="" disabled>
+                    <label for="loc">Nombre y Apellido</label>
+                    <select class="form-control" name="name" id="name" required>
+                        <option value="" disabled selected hidden>Elegir...</option>
+                        <option value="josh_garcia">Josh Garcia</option>
+                        <option value="javier_gallardo">Javier Gallardo</option>
+                    </select>
+                </div>
+
+                <!-- Campos ocultos para fecha, hora y ubicación -->
+                <input type="hidden" name="date" id="date">
+                <input type="hidden" name="time" id="time">
+                <input type="hidden" name="location" id="location">
+                <button type="submit" class="btn btn-danger btn-block">
+                    Registrar
+                </button>
+            </form>
+        </div>
     </div>
-    <div class="input-container ic2">
-        <input name="Apellido" id="lastname" class="input" type="text" placeholder=" "/>
-        <div class="cut"></div>
-        <label for="lastname" class="placeholder">Apellido</label>
-    </div>
-    <div class="input-container ic2">
-        <input name="Email" id="email" class="input" type="text" placeholder=" "/>
-        <div class="cut cut-short"></div>
-        <label for="email" class="placeholder">Email</label>
-    </div>
-    <button type="submit" class="submit">Registrar</button>
-</form>
-<script src="script.js"></script>
+
+    <script>
+        // Establecer la fecha y hora actual en los campos ocultos
+        function setDateTime() {
+            const currentDate = new Date();
+            const formattedDate = currentDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            const formattedTime = currentDate.toTimeString().split(' ')[0]; // Formato HH:MM:SS
+
+            document.getElementById("date").value = formattedDate;
+            document.getElementById("time").value = formattedTime;
+        }
+
+        // Obtener ubicación del usuario
+        function setLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        document.getElementById("location").value = `${latitude}, ${longitude}`;
+                    },
+                    () => {
+                        document.getElementById("location").value = "Ubicación no disponible";
+                    }
+                );
+            } else {
+                document.getElementById("location").value = "Geolocalización no soportada";
+            }
+        }
+
+        // Ejecutar funciones al cargar el formulario
+        window.addEventListener("load", () => {
+            setDateTime();
+            setLocation();
+        });
+
+        // Enviar el formulario
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyDapjTINFKyQDg48wJ3tA1t573lYgKcQ2EBB1OgcniiDMtdfOZIWqF30C0vjcD6zJq/exec";
+        const form = document.forms["submit-to-google-sheet"];
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            setDateTime(); // Asegurarse de que los campos de fecha y hora estén actualizados al momento del envío
+
+            const formData = new FormData(form);
+            fetch(scriptURL, { method: "POST", body: formData })
+                .then((response) => {
+                    swal("Listo!", "Se hizo el registro correctamente", "success");
+                })
+                .catch((error) => {
+                    swal("Error", "Algo salió mal, intentálo de nuevo!", "error");
+                });
+        });
+    </script>
 </body>
+
 </html>
