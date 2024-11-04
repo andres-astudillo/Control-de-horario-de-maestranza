@@ -32,22 +32,17 @@
                 ubicación. <strong>Por lo que es necesario darle los permisos de ubicación para que funcione correctamente.</strong></p>
             <form id="submit-to-google-sheet">
                 <div class="form-group">
-                    <label for="loc">Fecha</label>
-                    <input class="form-control" id="date" type="text" placeholder="" disabled>
-                    <label for="loc">Hora</label>
-                    <input class="form-control" id="time" type="text" placeholder="" disabled>
-                    <label for="loc">Nombre y Apellido</label>
-                    <select class="form-control" name="name" id="name" required>
+                    <select class="form-control" name="Nombre y Apellido" id="name" required>
                         <option value="" disabled selected hidden>Elegir...</option>
-                        <option value="josh_garcia">Josh Garcia</option>
-                        <option value="javier_gallardo">Javier Gallardo</option>
+                        <option value="Josh_Garcia">Josh Garcia</option>
+                        <option value="Javier_Gallardo">Javier Gallardo</option>
                     </select>
                 </div>
 
                 <!-- Campos ocultos para fecha, hora y ubicación -->
-                <input type="hidden" name="date" id="date">
-                <input type="hidden" name="time" id="time">
-                <input type="hidden" name="location" id="location">
+                <input type="hidden" name="Fecha" id="date">
+                <input type="hidden" name="Hora" id="time">
+                <input type="hidden" name="Ubicacion" id="location">
                 <button type="submit" class="btn btn-danger btn-block">
                     Registrar
                 </button>
