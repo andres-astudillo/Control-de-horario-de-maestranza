@@ -21,6 +21,18 @@
             background-color: #333333;
             border-radius: 10px;
         }
+        
+        .entrada-selected {
+            background-color: #28a745 !important;
+            color: white !important;
+            border-color: #28a745 !important;
+        }
+        
+        .salida-selected {
+            background-color: #dc3545 !important;
+            color: white !important;
+            border-color: #dc3545 !important;
+        }
     </style>
 </head>
 
@@ -32,10 +44,27 @@
                 ubicación. <strong>Por lo que es necesario darle los permisos de ubicación para que funcione correctamente.</strong></p>
             <form id="submit-to-google-sheet">
                 <div class="form-group">
+                    <label for="name" class="text-light">Nombre y Apellido:</label>
                     <select class="form-control" name="Nombre y Apellido" id="name" required>
                         <option value="" disabled selected hidden>Elegir...</option>
                         <option value="Josh_Garcia">Josh Garcia</option>
                         <option value="Javier_Gallardo">Javier Gallardo</option>
+                        <option value="Daniel Linares">Daniel Linares</option>
+                        <option value="otro">Otro (especificar)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherNameGroup" style="display: none;">
+                    <label for="otherName" class="text-light">Especificar nombre y apellido:</label>
+                    <input type="text" class="form-control" id="otherName" placeholder="Ingrese nombre y apellido completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo" class="text-light">Tipo de registro:</label>
+                    <select class="form-control" name="Tipo" id="tipo" required>
+                        <option value="" disabled selected hidden>Seleccionar tipo...</option>
+                        <option value="Entrada">Entrada</option>
+                        <option value="Salida">Salida</option>
                     </select>
                 </div>
 
@@ -43,7 +72,7 @@
                 <input type="hidden" name="Fecha" id="date">
                 <input type="hidden" name="Hora" id="time">
                 <input type="hidden" name="Ubicacion" id="location">
-                <button type="submit" class="btn btn-danger btn-block">
+                <button type="submit" class="btn btn-warning btn-block">
                     Registrar
                 </button>
             </form>
@@ -84,6 +113,36 @@
             setLocation();
         });
 
+        // Manejar la selección del dropdown de nombres
+        document.getElementById("name").addEventListener("change", function() {
+            const otherNameGroup = document.getElementById("otherNameGroup");
+            const otherNameInput = document.getElementById("otherName");
+            
+            if (this.value === "otro") {
+                otherNameGroup.style.display = "block";
+                otherNameInput.setAttribute("required", "required");
+            } else {
+                otherNameGroup.style.display = "none";
+                otherNameInput.removeAttribute("required");
+                otherNameInput.value = ""; // Limpiar el campo cuando se oculta
+            }
+        });
+
+        // Manejar el cambio de color del selector de tipo (Entrada/Salida)
+        document.getElementById("tipo").addEventListener("change", function() {
+            const tipoSelect = this;
+            
+            // Remover clases anteriores
+            tipoSelect.classList.remove("entrada-selected", "salida-selected");
+            
+            // Añadir la clase correspondiente según la selección
+            if (this.value === "Entrada") {
+                tipoSelect.classList.add("entrada-selected");
+            } else if (this.value === "Salida") {
+                tipoSelect.classList.add("salida-selected");
+            }
+        });
+
         // Enviar el formulario
         const scriptURL = "https://script.google.com/macros/s/AKfycbyDapjTINFKyQDg48wJ3tA1t573lYgKcQ2EBB1OgcniiDMtdfOZIWqF30C0vjcD6zJq/exec";
         const form = document.forms["submit-to-google-sheet"];
@@ -93,6 +152,15 @@
             setDateTime(); // Asegurarse de que los campos de fecha y hora estén actualizados al momento del envío
 
             const formData = new FormData(form);
+            
+            // Si se seleccionó "otro", usar el valor del input personalizado
+            const nameSelect = document.getElementById("name");
+            const otherNameInput = document.getElementById("otherName");
+            
+            if (nameSelect.value === "otro" && otherNameInput.value.trim() !== "") {
+                formData.set("Nombre y Apellido", otherNameInput.value.trim());
+            }
+
             fetch(scriptURL, { method: "POST", body: formData })
                 .then((response) => {
                     swal("Listo!", "Se hizo el registro correctamente", "success");
